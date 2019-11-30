@@ -17,7 +17,8 @@ func main() {
 
 func run() error {
 	likeRepo := memory.NewLikesRepository()
-	s := handler.New(likeRepo)
+	articleRepo := memory.NewArticleRepository()
+	s := handler.New(likeRepo, articleRepo)
 	r := router.New(s)
 	log.Println("serving...")
 	return http.ListenAndServe(":8080", r)

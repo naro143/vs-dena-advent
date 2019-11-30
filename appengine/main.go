@@ -28,7 +28,8 @@ func run(ctx context.Context) error {
 	}
 	c := boom.FromClient(ctx, ds)
 	likeRepo := datastore.NewLikesRepository(c)
-	s := handler.New(likeRepo)
+	articleRepo := datastore.NewArticleRepository(c)
+	s := handler.New(likeRepo, articleRepo)
 	r := router.New(s)
 	http.Handle("/", r)
 	appengine.Main()

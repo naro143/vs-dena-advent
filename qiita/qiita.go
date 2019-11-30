@@ -1,9 +1,7 @@
 package qiita
 
 import (
-	"encoding/json"
 	"fmt"
-	"io/ioutil"
 	"net/http"
 	"strconv"
 	"strings"
@@ -67,15 +65,9 @@ func GetLikesByArticleID(id string) (int64, error) {
 	if err != nil {
 		return 0, err
 	}
-	var ds []struct {
-		User interface{} `json:"user"`
+	totalCount := res.Header["Total-Count"]
+	if len(totalCount) == 0 {
+		return 0, nil
 	}
-	body, err := ioutil.ReadAll(res.Body)
-	if err != nil {
-		return 0, err
-	}
-	if err := json.Unmarshal(body, &ds); err != nil {
-		return 0, err
-	}
-	return int64(len(ds)), nil
+	return strconv.ParseInt(totalCount[0], 10, 64)
 }
