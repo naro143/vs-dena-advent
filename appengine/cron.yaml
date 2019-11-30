@@ -4,3 +4,9 @@ cron:
   schedule: every 10 minutes
   target: default
   timezone: Asia/Tokyo
+
+- description: "update articles"
+  url: /updatearticles
+  schedule: every 10 minutes
+  target: default
+  timezone: Asia/Tokyo
