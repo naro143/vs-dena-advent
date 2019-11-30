@@ -1,0 +1,6 @@
+cron:
+- description: "update likes"
+  url: /updatelikes
+  schedule: every 10 minutes
+  target: default
+  timezone: Asia/Tokyo

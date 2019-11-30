@@ -27,7 +27,7 @@ func (r *likesRepository) GetNew() (*model.Likes, error) {
 	return r.memory[len(r.memory)-1], nil
 }
 
-func (r *likesRepository) Update(likes *model.Likes) error {
+func (r *likesRepository) Create(likes *model.Likes) error {
 	likes.UpdatedAt = time.Now()
 	r.memory = append(r.memory, likes)
 	return nil

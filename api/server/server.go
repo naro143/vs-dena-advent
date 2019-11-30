@@ -3,8 +3,9 @@ package server
 import (
 	"net/http"
 
-	"github.com/tockn/vs-dena-advent/model"
+	"golang.org/x/sync/errgroup"
 
+	"github.com/tockn/vs-dena-advent/model"
 	"github.com/tockn/vs-dena-advent/qiita"
 
 	"github.com/tockn/vs-dena-advent/model/repository"
@@ -23,10 +24,10 @@ func NewServer(lr repository.Likes) *Server {
 func (s *Server) GetLikes(w http.ResponseWriter, r *http.Request) {
 	likes, err := s.likesRepo.GetNew()
 	if err != nil {
-		respondError(w, err, http.StatusInternalServerError, nil)
+		respondError(w, r, err, http.StatusInternalServerError, nil)
 		return
 	}
-	respondSuccess(w, http.StatusOK, likes)
+	respondSuccess(w, r, http.StatusOK, likes)
 }
 
 const (
@@ -35,23 +36,32 @@ const (
 )
 
 func (s *Server) UpdateLikes(w http.ResponseWriter, r *http.Request) {
-	shinsotsu, err := qiita.GetLikes(2019, shinsotsuTitle)
-	if err != nil {
-		respondError(w, err, http.StatusInternalServerError, nil)
+	var likes model.Likes
+	eg := &errgroup.Group{}
+	eg.Go(func() error {
+		shinsotsu, err := qiita.GetLikes(2019, shinsotsuTitle)
+		if err != nil {
+			return err
+		}
+		likes.Shinsotsu = shinsotsu
+		return nil
+	})
+	eg.Go(func() error {
+		general, err := qiita.GetLikes(2019, generalTitle)
+		if err != nil {
+			return err
+		}
+		likes.General = general
+		return nil
+	})
+	if err := eg.Wait(); err != nil {
+		respondError(w, r, err, http.StatusInternalServerError, nil)
 		return
 	}
-	general, err := qiita.GetLikes(2019, generalTitle)
-	if err != nil {
-		respondError(w, err, http.StatusInternalServerError, nil)
+
+	if err := s.likesRepo.Create(&likes); err != nil {
+		respondError(w, r, err, http.StatusInternalServerError, nil)
 		return
 	}
-	likes := &model.Likes{
-		Shinsotsu: shinsotsu,
-		General:   general,
-	}
-	if err := s.likesRepo.Update(likes); err != nil {
-		respondError(w, err, http.StatusInternalServerError, nil)
-		return
-	}
-	respondSuccess(w, http.StatusCreated, nil)
+	respondSuccess(w, r, http.StatusCreated, nil)
 }

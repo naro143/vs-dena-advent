@@ -10,6 +10,8 @@ import (
 func New(s *server.Server) http.Handler {
 	r := chi.NewRouter()
 	r.Get("/likes", s.GetLikes)
-	r.Post("/likes", s.UpdateLikes)
+
+	// for cron job
+	r.Get("/updatelikes", s.UpdateLikes)
 	return r
 }
