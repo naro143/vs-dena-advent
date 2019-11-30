@@ -1,4 +1,4 @@
-package server
+package handler
 
 import (
 	"net/http"
@@ -11,18 +11,18 @@ import (
 	"github.com/tockn/vs-dena-advent/model/repository"
 )
 
-type Server struct {
+type Handler struct {
 	likesRepo repository.Likes
 }
 
-func NewServer(lr repository.Likes) *Server {
-	return &Server{
+func New(lr repository.Likes) *Handler {
+	return &Handler{
 		likesRepo: lr,
 	}
 }
 
-func (s *Server) GetLikes(w http.ResponseWriter, r *http.Request) {
-	likes, err := s.likesRepo.GetNew()
+func (h *Handler) GetLikes(w http.ResponseWriter, r *http.Request) {
+	likes, err := h.likesRepo.GetNew()
 	if err != nil {
 		respondError(w, r, err, http.StatusInternalServerError, nil)
 		return
@@ -35,7 +35,7 @@ const (
 	generalTitle   = "dena"
 )
 
-func (s *Server) UpdateLikes(w http.ResponseWriter, r *http.Request) {
+func (h *Handler) UpdateLikes(w http.ResponseWriter, r *http.Request) {
 	var likes model.Likes
 	eg := &errgroup.Group{}
 	eg.Go(func() error {
@@ -59,7 +59,7 @@ func (s *Server) UpdateLikes(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if err := s.likesRepo.Create(&likes); err != nil {
+	if err := h.likesRepo.Create(&likes); err != nil {
 		respondError(w, r, err, http.StatusInternalServerError, nil)
 		return
 	}

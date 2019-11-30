@@ -4,14 +4,14 @@ import (
 	"net/http"
 
 	"github.com/go-chi/chi"
-	"github.com/tockn/vs-dena-advent/api/server"
+	"github.com/tockn/vs-dena-advent/api/handler"
 )
 
-func New(s *server.Server) http.Handler {
+func New(h *handler.Handler) http.Handler {
 	r := chi.NewRouter()
-	r.Get("/likes", s.GetLikes)
+	r.Get("/likes", h.GetLikes)
 
 	// for cron job
-	r.Get("/updatelikes", s.UpdateLikes)
+	r.Get("/updatelikes", h.UpdateLikes)
 	return r
 }

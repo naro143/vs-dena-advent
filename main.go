@@ -4,8 +4,8 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/tockn/vs-dena-advent/api/handler"
 	"github.com/tockn/vs-dena-advent/api/router"
-	"github.com/tockn/vs-dena-advent/api/server"
 	"github.com/tockn/vs-dena-advent/persistence/memory"
 )
 
@@ -17,7 +17,7 @@ func main() {
 
 func run() error {
 	likeRepo := memory.NewLikesRepository()
-	s := server.NewServer(likeRepo)
+	s := handler.New(likeRepo)
 	r := router.New(s)
 	log.Println("serving...")
 	return http.ListenAndServe(":8080", r)

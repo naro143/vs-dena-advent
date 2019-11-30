@@ -6,8 +6,8 @@ import (
 
 	"google.golang.org/appengine"
 
+	"github.com/tockn/vs-dena-advent/api/handler"
 	"github.com/tockn/vs-dena-advent/api/router"
-	"github.com/tockn/vs-dena-advent/api/server"
 
 	"github.com/tockn/vs-dena-advent/persistence/datastore"
 	"go.mercari.io/datastore/boom"
@@ -28,7 +28,7 @@ func run(ctx context.Context) error {
 	}
 	c := boom.FromClient(ctx, ds)
 	likeRepo := datastore.NewLikesRepository(c)
-	s := server.NewServer(likeRepo)
+	s := handler.New(likeRepo)
 	r := router.New(s)
 	http.Handle("/", r)
 	appengine.Main()
