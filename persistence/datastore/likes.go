@@ -23,7 +23,7 @@ func NewLikesRepository(c *boom.Boom) repository.Likes {
 
 func (r *likesRepository) GetNew() (*model.Likes, error) {
 	q := r.client.NewQuery("Likes").
-		Order("UpdatedAt").
+		Order("-UpdatedAt").
 		Limit(1)
 	var ls []*model.Likes
 	if _, err := r.client.GetAll(q, &ls); err != nil {
