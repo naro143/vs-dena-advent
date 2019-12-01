@@ -2,8 +2,6 @@ package handler
 
 import (
 	"net/http"
-	"strings"
-	"sync"
 
 	"golang.org/x/sync/errgroup"
 
@@ -67,38 +65,6 @@ func (h *Handler) UpdateLikes(w http.ResponseWriter, r *http.Request) {
 		respondError(w, r, err, http.StatusInternalServerError, nil)
 		return
 	}
-
-	as, err := h.articleRepo.List()
-	if err != nil {
-		respondError(w, r, err, http.StatusInternalServerError, nil)
-		return
-	}
-	wg := &sync.WaitGroup{}
-	for i, a := range as.Shinsotsu {
-		wg.Add(1)
-		go func() {
-			split := strings.Split(a.URL, "/")
-			articleID := split[len(split)-1]
-			likes, _ := qiita.GetLikesByArticleID(articleID)
-			as.Shinsotsu[i].Likes = likes
-			wg.Done()
-		}()
-	}
-	for i, a := range as.General {
-		wg.Add(1)
-		go func() {
-			split := strings.Split(a.URL, "/")
-			articleID := split[len(split)-1]
-			likes, _ := qiita.GetLikesByArticleID(articleID)
-			as.General[i].Likes = likes
-			wg.Done()
-		}()
-	}
-	wg.Wait()
-	if err := h.articleRepo.Update(as); err != nil {
-		respondError(w, r, err, http.StatusInternalServerError, nil)
-		return
-	}
 	respondSuccess(w, r, http.StatusCreated, nil)
 }
 
@@ -134,6 +100,17 @@ func (h *Handler) UpdateArticles(w http.ResponseWriter, r *http.Request) {
 		respondError(w, r, err, http.StatusInternalServerError, nil)
 		return
 	}
+	var shinsotsuTotalLikes int64
+	for _, a := range as.Shinsotsu {
+		shinsotsuTotalLikes += a.Likes
+	}
+	as.ShinsotsuTotalLikes = shinsotsuTotalLikes
+	var generalTotalLikes int64
+	for _, a := range as.General {
+		generalTotalLikes += a.Likes
+	}
+	as.GeneralTotalLikes = generalTotalLikes
+
 	if err := h.articleRepo.Update(as); err != nil {
 		respondError(w, r, err, http.StatusInternalServerError, nil)
 		return

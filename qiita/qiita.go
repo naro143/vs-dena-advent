@@ -53,6 +53,12 @@ func GetArticles(year int64, title string) ([]model.Article, error) {
 		titleSel.Each(func(i int, selection *goquery.Selection) {
 			as[i].Title = strings.TrimSpace(selection.Text())
 			as[i].URL, _ = selection.Find("a").Attr("href")
+			if as[i].URL == "" {
+				return
+			}
+			split := strings.Split(as[i].URL, "/")
+			articleID := split[len(split)-1]
+			as[i].Likes, _ = GetLikesByArticleID(articleID)
 		})
 		wg.Done()
 	}()
