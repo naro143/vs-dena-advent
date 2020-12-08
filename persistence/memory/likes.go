@@ -14,6 +14,7 @@ type likesRepository struct {
 func NewLikesRepository() repository.Likes {
 	mem := make([]*model.Likes, 1)
 	mem[0] = &model.Likes{
+		Naitei:    99,
 		Shinsotsu: 100,
 		General:   101,
 		UpdatedAt: time.Now(),

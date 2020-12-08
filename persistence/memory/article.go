@@ -14,6 +14,11 @@ func NewArticleRepository() repository.Article {
 
 func (r *articleRepository) List() (*model.Articles, error) {
 	return &model.Articles{
+		Naitei: []model.Article{
+			{
+				URL: "https://qiita.com/Kuniwak/items/7e0e3f1cb6f3ae822215",
+			},
+		},
 		Shinsotsu: []model.Article{
 			{
 				URL: "https://qiita.com/Kuniwak/items/7e0e3f1cb6f3ae822215",

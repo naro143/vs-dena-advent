@@ -33,7 +33,8 @@ func (h *Handler) GetLikes(w http.ResponseWriter, r *http.Request) {
 }
 
 const (
-	shinsotsuTitle = "dena-20-shinsostu"
+	naiteiTitle    = "dena-21-shinsotsu"
+	shinsotsuTitle = "dena-20-shinsotsu"
 	generalTitle   = "dena"
 )
 
@@ -41,7 +42,15 @@ func (h *Handler) UpdateLikes(w http.ResponseWriter, r *http.Request) {
 	var likes model.Likes
 	eg := &errgroup.Group{}
 	eg.Go(func() error {
-		shinsotsu, err := qiita.GetAllLikes(2019, shinsotsuTitle)
+		naitei, err := qiita.GetAllLikes(2020, naiteiTitle)
+		if err != nil {
+			return err
+		}
+		likes.Naitei = naitei
+		return nil
+	})
+	eg.Go(func() error {
+		shinsotsu, err := qiita.GetAllLikes(2020, shinsotsuTitle)
 		if err != nil {
 			return err
 		}
@@ -49,7 +58,7 @@ func (h *Handler) UpdateLikes(w http.ResponseWriter, r *http.Request) {
 		return nil
 	})
 	eg.Go(func() error {
-		general, err := qiita.GetAllLikes(2019, generalTitle)
+		general, err := qiita.GetAllLikes(2020, generalTitle)
 		if err != nil {
 			return err
 		}
@@ -81,7 +90,15 @@ func (h *Handler) UpdateArticles(w http.ResponseWriter, r *http.Request) {
 	as := &model.Articles{}
 	eg := &errgroup.Group{}
 	eg.Go(func() error {
-		shinsotsu, err := qiita.GetArticles(2019, shinsotsuTitle)
+		naitei, err := qiita.GetArticles(2020, naiteiTitle)
+		if err != nil {
+			return err
+		}
+		as.Naitei = naitei
+		return nil
+	})
+	eg.Go(func() error {
+		shinsotsu, err := qiita.GetArticles(2020, shinsotsuTitle)
 		if err != nil {
 			return err
 		}
@@ -89,7 +106,7 @@ func (h *Handler) UpdateArticles(w http.ResponseWriter, r *http.Request) {
 		return nil
 	})
 	eg.Go(func() error {
-		general, err := qiita.GetArticles(2019, generalTitle)
+		general, err := qiita.GetArticles(2020, generalTitle)
 		if err != nil {
 			return err
 		}
@@ -100,6 +117,11 @@ func (h *Handler) UpdateArticles(w http.ResponseWriter, r *http.Request) {
 		respondError(w, r, err, http.StatusInternalServerError, nil)
 		return
 	}
+	var naiteiTotalLikes int64
+	for _, a := range as.Naitei {
+		naiteiTotalLikes += a.Likes
+	}
+	as.NaiteiTotalLikes = naiteiTotalLikes
 	var shinsotsuTotalLikes int64
 	for _, a := range as.Shinsotsu {
 		shinsotsuTotalLikes += a.Likes
