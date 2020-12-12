@@ -1,12 +1,12 @@
 cron:
 - description: "update likes"
   url: /updatelikes
-  schedule: every 10 minutes
+  schedule: every 1 hours
   target: default
   timezone: Asia/Tokyo
 
 - description: "update articles"
   url: /updatearticles
-  schedule: every 10 minutes
+  schedule: every day 8:00
   target: default
   timezone: Asia/Tokyo
