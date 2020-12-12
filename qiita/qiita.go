@@ -27,7 +27,13 @@ func GetAllLikes(year int64, title string) (int64, error) {
 	if err != nil {
 		return 0, err
 	}
-	selection := doc.Find("div.adventCalendarJumbotron_stats[title=Likes]")
+	selection := doc.Find("div.adventCalendarJumbotron_stats")
+	// index1の要素を取得。[参加者、LGTM、購読者]
+	selection = selection.Eq(1)
+	// style, svgタグを除外
+	selection = selection.Contents().FilterFunction(func(i int, s *goquery.Selection) bool {
+		return !s.Is("style") && !s.Is("svg")
+	})
 	likesStr := selection.Text()
 	likesStr = strings.TrimSpace(likesStr)
 	return strconv.ParseInt(likesStr, 10, 64)
