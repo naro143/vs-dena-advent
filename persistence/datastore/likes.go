@@ -4,10 +4,10 @@ import (
 	"errors"
 	"time"
 
+	"github.com/naro143/vs-dena-advent/model/repository"
 	"github.com/rs/xid"
-	"github.com/tockn/vs-dena-advent/model/repository"
 
-	"github.com/tockn/vs-dena-advent/model"
+	"github.com/naro143/vs-dena-advent/model"
 	"go.mercari.io/datastore/boom"
 )
 

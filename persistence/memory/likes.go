@@ -3,8 +3,8 @@ package memory
 import (
 	"time"
 
-	"github.com/tockn/vs-dena-advent/model"
-	"github.com/tockn/vs-dena-advent/model/repository"
+	"github.com/naro143/vs-dena-advent/model"
+	"github.com/naro143/vs-dena-advent/model/repository"
 )
 
 type likesRepository struct {

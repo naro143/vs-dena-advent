@@ -1,8 +1,8 @@
 package datastore
 
 import (
-	"github.com/tockn/vs-dena-advent/model"
-	"github.com/tockn/vs-dena-advent/model/repository"
+	"github.com/naro143/vs-dena-advent/model"
+	"github.com/naro143/vs-dena-advent/model/repository"
 	"go.mercari.io/datastore/boom"
 )
 

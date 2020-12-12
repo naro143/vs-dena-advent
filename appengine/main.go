@@ -6,10 +6,10 @@ import (
 
 	"google.golang.org/appengine"
 
-	"github.com/tockn/vs-dena-advent/api/handler"
-	"github.com/tockn/vs-dena-advent/api/router"
+	"github.com/naro143/vs-dena-advent/api/handler"
+	"github.com/naro143/vs-dena-advent/api/router"
 
-	"github.com/tockn/vs-dena-advent/persistence/datastore"
+	"github.com/naro143/vs-dena-advent/persistence/datastore"
 	"go.mercari.io/datastore/boom"
 	"go.mercari.io/datastore/clouddatastore"
 )

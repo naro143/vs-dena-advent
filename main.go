@@ -4,9 +4,9 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/tockn/vs-dena-advent/api/handler"
-	"github.com/tockn/vs-dena-advent/api/router"
-	"github.com/tockn/vs-dena-advent/persistence/memory"
+	"github.com/naro143/vs-dena-advent/api/handler"
+	"github.com/naro143/vs-dena-advent/api/router"
+	"github.com/naro143/vs-dena-advent/persistence/memory"
 )
 
 func main() {

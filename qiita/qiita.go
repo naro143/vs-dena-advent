@@ -8,7 +8,7 @@ import (
 	"sync"
 
 	"github.com/PuerkitoBio/goquery"
-	"github.com/tockn/vs-dena-advent/model"
+	"github.com/naro143/vs-dena-advent/model"
 )
 
 const baseURL = "https://qiita.com/advent-calendar/%d/%s"

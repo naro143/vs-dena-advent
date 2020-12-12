@@ -1,8 +1,8 @@
 package memory
 
 import (
-	"github.com/tockn/vs-dena-advent/model"
-	"github.com/tockn/vs-dena-advent/model/repository"
+	"github.com/naro143/vs-dena-advent/model"
+	"github.com/naro143/vs-dena-advent/model/repository"
 )
 
 type articleRepository struct {

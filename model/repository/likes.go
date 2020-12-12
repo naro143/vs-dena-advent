@@ -1,6 +1,6 @@
 package repository
 
-import "github.com/tockn/vs-dena-advent/model"
+import "github.com/naro143/vs-dena-advent/model"
 
 type Likes interface {
 	GetNew() (*model.Likes, error)

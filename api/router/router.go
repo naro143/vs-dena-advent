@@ -4,7 +4,7 @@ import (
 	"net/http"
 
 	"github.com/go-chi/chi"
-	"github.com/tockn/vs-dena-advent/api/handler"
+	"github.com/naro143/vs-dena-advent/api/handler"
 )
 
 func New(h *handler.Handler) http.Handler {

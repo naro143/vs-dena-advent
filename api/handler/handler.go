@@ -5,10 +5,10 @@ import (
 
 	"golang.org/x/sync/errgroup"
 
-	"github.com/tockn/vs-dena-advent/model"
-	"github.com/tockn/vs-dena-advent/qiita"
+	"github.com/naro143/vs-dena-advent/model"
+	"github.com/naro143/vs-dena-advent/qiita"
 
-	"github.com/tockn/vs-dena-advent/model/repository"
+	"github.com/naro143/vs-dena-advent/model/repository"
 )
 
 type Handler struct {
