@@ -7,6 +7,6 @@ cron:
 
 - description: "update articles"
   url: /updatearticles
-  schedule: every day 8:00
+  schedule: every 3 hours from 7:00 to 19:00
   target: default
   timezone: Asia/Tokyo
